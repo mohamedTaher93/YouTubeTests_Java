@@ -1,10 +1,10 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -12,21 +12,24 @@ public class HomePage extends BasePage {
 
     private String videoName;
     private WebElement video;
-    public HomePage (WebDriver driver)
 
-    {
+    public HomePage (WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath="//input[@id='search']")
     WebElement searchBox;
-
-    @FindBy(id = "search-icon-legacy")
-    WebElement searchIcon;
-
     @FindBy(xpath = "//a[@id='video-title']")
     List<WebElement> videosTitles;
+
+    By youtubeLogo = By.xpath("//yt-formatted-string[text() = 'Home']");
+
+    public Boolean homePageLoaded()
+    {
+        return elementDisplayed(youtubeLogo);
+    }
+
     public void searchForVideo(String videoTitle)
     {
         videoName = videoTitle;
@@ -37,7 +40,8 @@ public class HomePage extends BasePage {
     public Boolean videoDisplayed ()
     {
         String actualTitle;
-        explicitWaitForAllElements(videosTitles);
+//        explicitWaitForAllElements(videosTitles);
+
         for(int i = 0; i < videosTitles.size(); i++)
         {
             video = videosTitles.get(i);
@@ -55,5 +59,4 @@ public class HomePage extends BasePage {
         clickElement(video);
         return video;
     }
-
 }

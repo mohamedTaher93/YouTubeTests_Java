@@ -3,18 +3,18 @@ package steps;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
-//import org.testng.Assert;
 import pages.BasePage;
 import pages.HomePage;
 import pages.VideoPage;
 import utils.Helpers;
+import utils.DriverInitialization;
 
-public class OpenVideo extends TestBase {
-
+public class OpenVideo extends DriverInitialization {
     BasePage basePage = new BasePage(getDriver());
     HomePage homePage = new HomePage(getDriver());
     VideoPage videoPage = new VideoPage(getDriver());
     WebElement video;
+
     @Given("I navigate to youtube")
     public void navigateToYoutube(){
         basePage.launchApp(Helpers.properties.getProperty("appUrl"));
@@ -36,6 +36,23 @@ public class OpenVideo extends TestBase {
     public void pauseVideo ()
     {
         videoPage.pauseVideo();
+    }
+
+    @When("I select share option")
+    public void selectShareOption()
+    {
+        videoPage.clickShareVideo();
+    }
+    @When("I select download option")
+    public void selectDownloadOption()
+    {
+        videoPage.clickDownloadVideo();
+    }
+
+    @Then("Verify home page loaded")
+    public void verifyHomePageLoaded()
+    {
+        Assert.assertTrue("Home page not loaded", homePage.homePageLoaded());
     }
 
     @Then("Verify the video displayed in the search page")
@@ -66,5 +83,16 @@ public class OpenVideo extends TestBase {
     public void verifyChannelNameDisplayed(String channelName)
     {
         Assert.assertTrue("Channel name is incorrect", videoPage.channelNameDisplayed(channelName));
+    }
+    @Then("Verify share popup displayed")
+    public void verifySharePopupDisplayed()
+    {
+        Assert.assertTrue("Share video doesn't work correctly", videoPage.shareVideoPopUpDisplayed());
+    }
+    @Then("Verify download disabled")
+    public void verifyDownloadDisabled()
+    {
+        Assert.assertTrue("Download unavailable alert not displayed", videoPage.downloadUnavailableAlertDisplayed());
+        Assert.assertFalse("Download video doesn't work correctly", videoPage.downloadPopUpDisplayed());
     }
 }
