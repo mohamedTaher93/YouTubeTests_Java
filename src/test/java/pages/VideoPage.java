@@ -10,7 +10,6 @@ public class VideoPage extends BasePage {
 
     public VideoPage(WebDriver driver)
     {
-//        this.driver = driver;
         super(driver);
         PageFactory.initElements(driver, this);
     }
@@ -33,32 +32,28 @@ public class VideoPage extends BasePage {
     {
 //        waitForElement(videoPlayer);
 //        return elementDisplayed(videoPlayer);
-        waitForElement(videoPlayer);
+//        waitForElement(videoPlayer);
         return elementDisplayed(videoPlayer);
     }
 
     public Boolean videoStartedPlaying()
     {
-//        return elementDisplayed(pauseIconBy);
         return elementDisplayed(pauseIconBy);
     }
 
     public void pauseVideo ()
     {
-//        clickElement(pauseIcon);
         clickElement(pauseIcon);
     }
 
     public Boolean videoPaused()
     {
-//        waitForInvisibilityOfElement(pauseIcon);
         waitForInvisibilityOfElement(pauseIcon);
         return true;
     }
 
     public Boolean channelNameDisplayed(String channelName)
     {
-//        String actualChannelName = getText(videoChannelName);
         String actualChannelName = getText(videoChannelName);
         if(channelName.equalsIgnoreCase(actualChannelName))
         {
@@ -68,29 +63,24 @@ public class VideoPage extends BasePage {
     }
     public void clickShareVideo()
     {
-//        clickElement(shareVideoButton);
         clickElement(shareVideoButton);
     }
     public Boolean shareVideoPopUpDisplayed()
     {
-//        return elementDisplayed(sharePopUp);
         return elementDisplayed(sharePopUp);
     }
     public void clickDownloadVideo()
     {
-//        clickElement(downloadButton);
         clickElement(downloadButton);
     }
     public Boolean downloadUnavailableAlertDisplayed()
     {
         System.out.println("Download Alert checker......");
-//        return elementDisplayed(downloadUnavailableAlert);
         return elementDisplayed(downloadUnavailableAlert);
     }
     public Boolean downloadPopUpDisplayed()
     {
         System.out.println("Download popup checker.......");
-//        return elementDisplayed(downloadPopup);
         return elementDisplayed(downloadPopup);
     }
 

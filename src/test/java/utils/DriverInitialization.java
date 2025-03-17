@@ -5,29 +5,30 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import java.util.concurrent.TimeUnit;
 
-public class DriverInitialization extends Helpers {
+public class DriverInitialization {
 
     private static WebDriver driver;
-    private int defaultWaitTime = Integer.parseInt(getConfigData().getProperty("defaultWait"));
+    private static final int defaultWaitTime = Integer.parseInt(Helpers.getConfigData().getProperty("defaultWait"));
 
-    public void setDriver(String browser) {
+    public static void setDriver(String browser) {
 
         if(browser.equalsIgnoreCase("chrome"))
         {
             System.out.println("Setup driver....");
-//            WebDriverManager.chromedriver().driverVersion("108").setup();
-            WebDriverManager.chromedriver().setup();
+            String currentChromeVersion = WebDriverManager.chromedriver().getDriverVersions().get(0);
+            WebDriverManager.chromedriver().driverVersion(currentChromeVersion).setup();
+//            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver(chromeOptions());
         }
         driver.manage().timeouts().implicitlyWait(defaultWaitTime, TimeUnit.SECONDS);
     }
 
-    public WebDriver getDriver()
+    public static WebDriver getDriver()
     {
         return driver;
     }
 
-    private ChromeOptions chromeOptions()
+    private static ChromeOptions chromeOptions()
     {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("no-sandbox");
@@ -35,3 +36,5 @@ public class DriverInitialization extends Helpers {
         return options;
     }
 }
+
+

@@ -9,15 +9,15 @@ import pages.VideoPage;
 import utils.Helpers;
 import utils.DriverInitialization;
 
-public class OpenVideo extends DriverInitialization {
-    BasePage basePage = new BasePage(getDriver());
-    HomePage homePage = new HomePage(getDriver());
-    VideoPage videoPage = new VideoPage(getDriver());
-    WebElement video;
+public class OpenVideo {
+//    BasePage basePage = new BasePage(getDriver());
+    HomePage homePage = new HomePage(DriverInitialization.getDriver());
+    VideoPage videoPage = new VideoPage(DriverInitialization.getDriver());
+//    WebElement video;
 
     @Given("I navigate to youtube")
     public void navigateToYoutube(){
-        basePage.launchApp(Helpers.properties.getProperty("appUrl"));
+        BasePage.launchApp(Helpers.properties.getProperty("appUrl"));
     }
 
     @When("I search for {string} video")
@@ -29,7 +29,7 @@ public class OpenVideo extends DriverInitialization {
     @When("I press on the video")
     public void pressOnVideo()
     {
-        video = homePage.openVideo();
+        homePage.openVideo();
     }
 
     @When("I pause the video")

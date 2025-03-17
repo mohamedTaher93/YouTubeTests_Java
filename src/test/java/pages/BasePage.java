@@ -5,27 +5,30 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.DriverInitialization;
 import utils.Helpers;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import static java.lang.Integer.parseInt;
 
 public class BasePage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private Helpers helpers = new Helpers();
-    public int defaultWaitSeconds= parseInt(helpers.getConfigData().getProperty("defaultWait"));
+//    private WebDriver driver;
+    WebDriverWait wait;
+    public int defaultWaitSeconds= parseInt(Helpers.getConfigData().getProperty("defaultWait"));
 
     public BasePage(WebDriver driver)
     {
-        this.driver = driver;
+//        this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(defaultWaitSeconds));
-        PageFactory.initElements(driver, this);
     }
-    public void launchApp(String appUrl)
+    public static void launchApp(String appUrl)
     {
-        driver.navigate().to(appUrl);
+        DriverInitialization.getDriver().navigate().to(appUrl);
     }
 
     //    public static void explicitWaitForAllElements(WebDriver driver, List<WebElement> elements)
@@ -48,6 +51,7 @@ public class BasePage {
         element.click();
         element.clear();
         element.sendKeys(text);
+
     }
     public void pressEnter (WebElement element)
     {
@@ -70,7 +74,7 @@ public class BasePage {
     }
     public Boolean elementDisplayed (By by)
     {
-        List<WebElement> elements = driver.findElements(by);
+        List<WebElement> elements = DriverInitialization.getDriver().findElements(by);
         if(elements.isEmpty())
         {
             return false;
@@ -82,5 +86,24 @@ public class BasePage {
 //        wait = new WebDriverWait(driver, Duration.ofSeconds(defaultWaitSeconds));
 //        setWait(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
+    public void selectOptionFromDropdown(By dropDownBy, String option){
+        Select dropdown = new Select(DriverInitialization.getDriver().findElement(dropDownBy));
+        dropdown.selectByVisibleText(option);
+    }
+    public void draft(){
+        WebDriver driver = DriverInitialization.getDriver();
+        driver.switchTo().frame("x");
+        driver.switchTo().alert().accept();
+        String mainWindow = driver.getWindowHandle();
+        ArrayList<String> windows = new ArrayList<>(driver.getWindowHandles());
+        String x = windows.get(2);
+        driver.switchTo().window(windows.get(2));
+        driver.switchTo().window(mainWindow);
+
+        driver.switchTo().window(windows.iterator().next());
+        driver.manage().window().maximize();
+
+
     }
 }

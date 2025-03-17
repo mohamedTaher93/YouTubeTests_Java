@@ -9,20 +9,16 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class HomePage extends BasePage {
-
     private String videoName;
     private WebElement video;
-
     public HomePage (WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-
     @FindBy(xpath="//input[@id='search']")
     WebElement searchBox;
     @FindBy(xpath = "//a[@id='video-title']")
     List<WebElement> videosTitles;
-
     By youtubeLogo = By.xpath("//yt-formatted-string[text() = 'Home']");
 
     public Boolean homePageLoaded()
@@ -36,7 +32,6 @@ public class HomePage extends BasePage {
         enterText(searchBox, videoTitle);
         pressEnter(searchBox);
     }
-
     public Boolean videoDisplayed ()
     {
         String actualTitle;
@@ -53,10 +48,9 @@ public class HomePage extends BasePage {
         }
         return false;
     }
-
-    public WebElement openVideo()
+    public void openVideo()
     {
         clickElement(video);
-        return video;
+//        return video;
     }
 }
